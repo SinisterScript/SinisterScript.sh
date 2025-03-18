@@ -115,10 +115,10 @@ iframe {
 }
 
 .ss_window_iframeBlocker {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
-    height: calc(100% - 30px);
+    height: 100%;
     width: 100%;
     border: none;
     display: none;
