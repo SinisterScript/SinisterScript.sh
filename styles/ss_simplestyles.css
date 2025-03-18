@@ -7,3 +7,42 @@ body {
 p {
     color: white;
 }
+
+#memberpage {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: rgb(0, 148, 148);
+}
+
+#portfoliopage {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: rgb(0, 148, 148);
+}
+
+#recyclepage {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: rgb(0, 148, 148);
+}
