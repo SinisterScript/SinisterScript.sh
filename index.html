@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styles/ss_styles.css">
+        <script src="scripts/ss_os.js"></script>
+        <script src="scripts/clock.js"></script>
+    </head>
+    <body>
+        <div id="ss_container">
+            <!-- ss_container is the main container for ss_application's and tasbar -->
+            <div class="ss_application" href="pages/home.html">
+                <img class="iconImage" src="images/computer_explorer.png" />
+                <!--
+                    an ss_application renders itself as a desktop icon with behaviors:
+                        - can be double clicked to open an ss_window
+                    an ss_window is rendered by js and have the following behaviors
+                        - loads an iframe
+                        - can be dragged & dropped to relocated or resize
+                        - can be minimized or maximized
+                -->
+            </div>
+            <div class="ss_application" href="#">
+                <img class="iconImage"  src="images/directory_open_file_mydocs.png" />
+            </div>
+            <div class="ss_application" href="#">
+                <img class="iconImage"  src="images/recycle_bin.png" />
+            </div>
+            <div id="ss_taskbar">
+                <div id="ss_start_button" class="ss_taskbar_item">
+                    <img id="startImage" src="images/winLogoSm.png" />
+                </div>
+                <div id="ss_system_tray" class="ss_taskbar_item">
+                    <img id="clockImg" src="images/clock.png" />
+                    <div id="clockTime"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
