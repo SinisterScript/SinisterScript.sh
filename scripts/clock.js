@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         const now = new Date();
         clockEl.textContent = `${formatDigits(now.getHours())}:${formatDigits(now.getMinutes())}:${formatDigits(now.getSeconds())}`;
-    });
+    }, 1000);
     
 });

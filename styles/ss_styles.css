@@ -75,6 +75,40 @@ body {
     margin-top: 2px;
 }
 
+/* start menu */
+#ss_startMenu {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 200px;
+    background-color: rgb(161, 161, 161);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.ss_startMenuItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+}
+
+.ss_startMenuItem:hover {
+    background-color: rgb(179, 179, 179);
+}
+
+.ss_menuItemText {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    pointer-events: none;
+}
+
+.ss_menuIconImage {
+    pointer-events: none;
+}
+
+
 /* icons */
 .ss_application {
     height: 80px;
@@ -97,6 +131,8 @@ body {
     top: 300px;
     height: 500px;
     width: 800px;
+    min-width: 100px;
+    min-height: 100px;
     background-color: white;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
 }
@@ -105,6 +141,48 @@ body {
     height: 30px;
     width: 100%;
     border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.ss_window_horiz_resize_l {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 0px;
+    cursor: ew-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_horiz_resize_r {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 0px;
+    cursor: ew-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_vert_resize_t {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 0px;
+    width: 100%;
+    cursor: ns-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_vert_resize_b {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 0px;
+    width: 100%;
+    cursor: ns-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
 }
 
 iframe {
@@ -115,10 +193,10 @@ iframe {
 }
 
 .ss_window_iframeBlocker {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
-    height: calc(100% - 30px);
+    height: 100%;
     width: 100%;
     border: none;
     display: none;
