@@ -28,6 +28,27 @@
                 <div id="ss_start_button" class="ss_taskbar_item">
                     <img id="startImage" src="images/winLogoSm.png" />
                 </div>
+
+                <div id="ss_startMenu">
+                    <!--
+                        start menu items are defined the same way ss_applications are
+                            - a div with className ss_startMenuItem
+                            - div must contain href attribute
+                    -->
+                    <div class="ss_startMenuItem" href="pages/home.html">
+                        <img class="ss_menuIconImage" src="images/computer_explorer.png" />
+                        <div class="ss_menuItemText">menu item 1</div>
+                    </div>
+                    <div class="ss_startMenuItem" href="#">
+                        <img class="ss_menuIconImage"  src="images/directory_open_file_mydocs.png" />
+                        <div class="ss_menuItemText">meow item 2</div>
+                    </div>
+                    <div class="ss_startMenuItem" href="#">
+                        <img class="ss_menuIconImage"  src="images/recycle_bin.png" />
+                        <div class="ss_menuItemText">meow item 3</div>
+                    </div>
+                </div>
+                
                 <div id="ss_system_tray" class="ss_taskbar_item">
                     <img id="clockImg" src="images/clock.png" />
                     <div id="clockTime"></div>

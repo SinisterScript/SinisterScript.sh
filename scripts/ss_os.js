@@ -173,15 +173,32 @@ class ss_window {
 }
 
 class ss_desktop {
-    constructor(containerId) {
+    constructor({ containerId, startMenuId, startMenuButtonId, appsClassName, menuItemsClassName }) {
         this.openWindows = [];
         this.containerEl = document.getElementById(containerId);
+        this.startMenuEl = document.getElementById(startMenuId);
+        this.startMenuButtonEl = document.getElementById(startMenuButtonId);
+        this.appsClassName = appsClassName;
+        this.menuItemsClassName = menuItemsClassName;
         this.bindHandlersToApps();
+        this.bindHandlersToStartMenu();
     }
 
     bindHandlersToApps = () => {
-        const ss_applications = document.getElementsByClassName('ss_application');
+        const { appsClassName } = this;
+        const ss_applications = document.getElementsByClassName(appsClassName);
         for (const app of ss_applications) {
+            app.addEventListener('click', this.addWindow);
+        }
+    };
+
+    bindHandlersToStartMenu = () => {
+        const { startMenuButtonEl, menuItemsClassName } = this;
+        // click handler to startmenu button
+        startMenuButtonEl.addEventListener('click', this.showStartMenu);
+        // click handlers for all menu items
+        const ss_menuItems = document.getElementsByClassName(menuItemsClassName);
+        for (const app of ss_menuItems) {
             app.addEventListener('click', this.addWindow);
         }
     };
@@ -206,8 +223,41 @@ class ss_desktop {
         const w = new ss_window(containerEl, appEl, (this.openWindows.length + 1) * 1000, this);
         this.openWindows.push(w);
     };
+
+    calcStartMenuHeight = () => {
+        const { startMenuEl } = this;
+        const startMenuItems = startMenuEl.children;
+        const numChildren = startMenuItems.length;
+        const childHeight = startMenuItems[0].getBoundingClientRect().height;
+        return childHeight * numChildren;
+    };
+
+    showStartMenu = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const { startMenuEl } = this;
+        startMenuEl.style.display = 'block';
+        startMenuEl.style.left = e.clientX;
+        const menuHeight = this.calcStartMenuHeight();
+        startMenuEl.style.top = e.clientY - menuHeight;
+        startMenuEl.style.height = menuHeight;
+
+        document.body.addEventListener('click', this.hideStartMenu);
+        startMenuEl.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); });
+    };
+
+    hideStartMenu = (e) => {
+        const { startMenuEl } = this;
+        startMenuEl.style.display = 'none';
+    };
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new ss_desktop('ss_container');
+    new ss_desktop({
+        containerId: 'ss_container',
+        startMenuId: 'ss_startMenu',
+        startMenuButtonId: 'ss_start_button',
+        appsClassName: 'ss_application',
+        menuItemsClassName: 'ss_startMenuItem'
+    });
 });
