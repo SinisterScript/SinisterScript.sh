@@ -28,12 +28,40 @@ class ss_window {
 
         this.windowEl.append(this.createTitleEl());
         this.windowEl.append(this.createIframe());
+
+        const resizeHandles = this.createResizeHandles();
         this.windowEl.append(this.iframeBlockerEl);
+        this.windowEl.append(resizeHandles.left);
+        this.windowEl.append(resizeHandles.right);
+        this.windowEl.append(resizeHandles.top);
+        this.windowEl.append(resizeHandles.bottom);
 
         this.setZIndex(zIndex);
 
+        containerEl.addEventListener('mouseup', () => {
+            this.action == false;
+            this.setFrameBlocker(false);
+            this.dragInfo = { mouseStart: {}, windowStart: {} };
+            containerEl.removeEventListener('mousemove', this.handleMouseMove);
+        });
+
         containerEl.append(this.windowEl);
+
+        this.action = false;
     }
+
+
+    initDragInfo = (e) => {
+        const { windowEl } = this;
+        this.dragInfo.mouseStart = {x: e.clientX, y: e.clientY}
+        const windowRect = windowEl.getBoundingClientRect();
+        this.dragInfo.windowStart = {
+            x: windowRect.x,
+            y: windowRect.y,
+            height: windowRect.height,
+            width: windowRect.width
+        }
+    };
 
     createWindowEl = () => {
         const windowEl = document.createElement('div');
@@ -46,6 +74,39 @@ class ss_window {
         titleBarEl.classList.add('ss_window_titleBar');
         titleBarEl.addEventListener('mousedown', this.handleWindowTitleClick);
         return titleBarEl;
+    };
+
+    buildResizeHandler = (action) => {
+        const { containerEl, ss_desktopObj } = this;
+        return (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            ss_desktopObj.raiseWindow(this);
+            this.action = action;
+            this.setFrameBlocker(true);
+            containerEl.addEventListener('mousemove', this.handleMouseMove);
+            this.initDragInfo(e);
+        };
+    };
+
+    createResizeHandles = () => {
+        const left = document.createElement('div');
+        left.classList.add('ss_window_horiz_resize_l');
+        left.addEventListener('mousedown', this.buildResizeHandler('resizeL'));
+
+        const right = document.createElement('div');
+        right.classList.add('ss_window_horiz_resize_r');
+        right.addEventListener('mousedown', this.buildResizeHandler('resizeR'));
+
+        const top = document.createElement('div');
+        top.classList.add('ss_window_vert_resize_t');
+        top.addEventListener('mousedown', this.buildResizeHandler('resizeT'));
+
+        const bottom = document.createElement('div');
+        bottom.classList.add('ss_window_vert_resize_b');
+        bottom.addEventListener('mousedown', this.buildResizeHandler('resizeB'));
+
+        return { left, right, top, bottom };
     };
 
     createIframe = () => {
@@ -72,32 +133,40 @@ class ss_window {
 
 
     handleMouseMove = (e) => {
-        const { windowEl } = this;
+        const { windowEl, action } = this;
         const { mouseStart, windowStart } = this.dragInfo;
         const mouseDiff = { x: e.clientX - mouseStart.x, y: e.clientY - mouseStart.y }
-        windowEl.style.left =  windowStart.x + mouseDiff.x;
-        windowEl.style.top = windowStart.y + mouseDiff.y;
+
+        if (action == 'move') {
+            windowEl.style.left =  windowStart.x + mouseDiff.x;
+            windowEl.style.top = windowStart.y + mouseDiff.y;
+        } else if (action == 'resizeL') {
+            windowEl.style.left = windowStart.x + mouseDiff.x;
+            windowEl.style.width = windowStart.width - mouseDiff.x;
+        }  else if (action == 'resizeR') {
+            windowEl.style.right = windowStart.x - mouseDiff.x;
+            windowEl.style.width = windowStart.width + mouseDiff.x;
+        } else if (action == 'resizeT') {
+            windowEl.style.top = windowStart.y + mouseDiff.y;
+            windowEl.style.height = windowStart.height - mouseDiff.y;
+        } else if (action == 'resizeB') {
+            windowEl.style.bottom = windowStart.y - mouseDiff.y;
+            windowEl.style.height = windowStart.height + mouseDiff.y;
+        } else {
+            throw new Error('Invalid mousemove action.');
+        }
     };
 
     handleWindowTitleClick = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        
         const { containerEl, windowEl, ss_desktopObj } = this;
 
         ss_desktopObj.raiseWindow(this);
-
         this.setFrameBlocker(true);
+        this.action = 'move';
 
-        containerEl.addEventListener('mouseup', () => {
-            this.setFrameBlocker(false);
-            containerEl.removeEventListener('mousemove', this.handleMouseMove);
-            this.dragInfo = { mouseStart: {}, windowStart: {} };
-        });
-        
-        this.dragInfo.mouseStart = {x: e.clientX, y: e.clientY}
-        const windowRect = windowEl.getBoundingClientRect();
-        this.dragInfo.windowStart = {x: windowRect.x, y: windowRect.y}
+        this.initDragInfo(e);
         
         containerEl.addEventListener('mousemove', this.handleMouseMove);
     };
