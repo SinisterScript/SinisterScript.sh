@@ -12,6 +12,11 @@
         <div id="ss_taskbar"></div>
 */
 
+const windowDefault = {
+    width: 800,
+    height: 500
+}
+
 class ss_window {
     constructor(containerEl, appEl, zIndex, ss_desktopObj) {
 
@@ -59,7 +64,27 @@ class ss_window {
 
         containerEl.append(this.windowEl);
 
+        const initLoc = this.getInitLocation();
+        this.windowEl.style.left = initLoc.x;
+        this.windowEl.style.top = initLoc.y;
+        this.windowEl.style.width = windowDefault.width;
+        this.windowEl.style.height = windowDefault.height;
+
         this.action = false;
+    };
+
+    getInitLocation = () => {
+        const pad = 100;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const x = Math.floor(
+            Math.random() * (windowWidth - windowDefault.width - (2 * pad))
+        ) + pad;
+        const y = Math.floor(
+            Math.random() * (windowHeight - windowDefault.height - (2 * pad))
+        ) + pad;
+
+        return { x, y };
     };
 
     initDragInfo = (e) => {

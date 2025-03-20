@@ -135,8 +135,8 @@ body {
 /* windows */
 .ss_window {
     position: fixed;
-    left: 300px;
-    top: 300px;
+    left: 0px;
+    top: 0px;
     height: 500px;
     width: 800px;
     min-width: 100px;
