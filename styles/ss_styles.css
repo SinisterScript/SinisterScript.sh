@@ -1,11 +1,14 @@
 body {
     margin: 0px;
     padding: 0px;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 #ss_container {
     position: fixed;
-    height: 100%;
+    height: calc(100% - 35px);
     width: 100%;
     padding: 1em;
     display: flex;
@@ -14,6 +17,7 @@ body {
     flex-wrap: wrap;
     align-content: flex-start;
     background-color: rgb(0, 148, 148);
+    box-sizing: border-box;
 }
 
 /* taskbar */
@@ -28,6 +32,7 @@ body {
     height: 35px;
     width: 100%;
     background-color: rgb(161, 161, 161);
+    z-index: 10000;
 }
 
 .ss_taskbar_item {
@@ -111,12 +116,15 @@ body {
 
 /* icons */
 .ss_application {
-    height: 80px;
-    width: 80px;
-    border: 1px solid black;
+    height: 120px;
+    width: 120px;
+    padding: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 .iconImage {
     height: 70px;
@@ -142,6 +150,58 @@ body {
     width: 100%;
     border: 1px solid black;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+    gap: 5px;
+}
+
+.titleText {
+    padding-top: 2px;
+    cursor: default;
+}
+
+.titleButtons {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    margin-right: 2px;
+}
+
+.titleMinButton, .titleMaxButton, .titleExitButton {
+    height: 20px;
+    width: 20px;
+    border: 1px solid rgb(173, 173, 173);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.titleMinButton:hover, .titleMaxButton:hover, .titleExitButton:hover {
+    background-color: rgb(211, 211, 211);
+}
+
+.titleInnerMinButton {
+    height: 10px;
+    width: 10px;
+    border-bottom: 1px solid black;
+}
+
+.titleInnerMaxButton {
+    height: 10px;
+    width: 10px;
+    border: 1px solid black;
+}
+
+.titleExitButton {
+    font-size: 14px;
+    cursor: default;
 }
 
 .ss_window_horiz_resize_l {

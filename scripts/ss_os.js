@@ -17,12 +17,25 @@ class ss_window {
 
         this.ss_desktopObj = ss_desktopObj;
         this.containerEl = containerEl;
-        this.appEl = appEl;
         this.href = appEl.getAttribute('href');
-        this.windowEl;
-        this.iframeBlockerEl;
+        this.imgSrc = appEl.querySelector('img').src;
+        this.appText = appEl.querySelector('div').textContent;
         this.dragInfo = { mouseStart: {}, windowStart: {} };
+        this.windowState = 'default'; // default|min|max
+        this.initWindow();
+        this.setZIndex(zIndex);
 
+        /* // for visibility, here some other instance variables that get used
+            this.windowEl;
+            this.appEl = appEl;
+            this.iframeBlockerEl;
+            this.action;
+        */
+    }
+
+
+    initWindow = () => {
+        const { containerEl } = this;
         this.createWindowEl();
         this.createIframeBlocker()
 
@@ -36,10 +49,9 @@ class ss_window {
         this.windowEl.append(resizeHandles.top);
         this.windowEl.append(resizeHandles.bottom);
 
-        this.setZIndex(zIndex);
 
         containerEl.addEventListener('mouseup', () => {
-            this.action == false;
+            this.action = false;
             this.setFrameBlocker(false);
             this.dragInfo = { mouseStart: {}, windowStart: {} };
             containerEl.removeEventListener('mousemove', this.handleMouseMove);
@@ -48,8 +60,7 @@ class ss_window {
         containerEl.append(this.windowEl);
 
         this.action = false;
-    }
-
+    };
 
     initDragInfo = (e) => {
         const { windowEl } = this;
@@ -70,9 +81,52 @@ class ss_window {
     };
 
     createTitleEl = () => {
+        const { imgSrc, appText } = this;
+
         const titleBarEl = document.createElement('div');
         titleBarEl.classList.add('ss_window_titleBar');
         titleBarEl.addEventListener('mousedown', this.handleWindowTitleClick);
+
+        // title img
+        const titleImg = document.createElement('img');
+        titleImg.src = imgSrc;
+        titleBarEl.append(titleImg);
+
+        // title text
+        const titleText = document.createElement('div');
+        titleText.classList.add('titleText');
+        titleText.textContent = appText;
+        titleBarEl.append(titleText);
+
+        // min
+        const minButton = document.createElement('div');
+        minButton.classList.add('titleMinButton');
+        const innerMinButton = document.createElement('div');
+        innerMinButton.classList.add('titleInnerMinButton');
+        minButton.append(innerMinButton);
+        minButton.addEventListener('mousedown', this.handleWindowMinClick);
+        // max
+        const maxButton = document.createElement('div');
+        maxButton.classList.add('titleMaxButton');
+        const innerMaxButton = document.createElement('div');
+        innerMaxButton.classList.add('titleInnerMaxButton');
+        maxButton.append(innerMaxButton);
+        maxButton.addEventListener('mousedown', this.handleWindowMaxClick);
+        // exit
+        const exitButton = document.createElement('div');
+        exitButton.classList.add('titleExitButton');
+        exitButton.textContent = 'X';
+        exitButton.addEventListener('mousedown', this.handleWindowExitClick);
+        // titleButtons div
+        const titleButtons = document.createElement('div');
+        titleButtons.classList.add('titleButtons');
+
+        titleButtons.append(minButton);
+        titleButtons.append(maxButton);
+        titleButtons.append(exitButton);
+
+        titleBarEl.append(titleButtons);
+
         return titleBarEl;
     };
 
@@ -137,19 +191,19 @@ class ss_window {
         const { mouseStart, windowStart } = this.dragInfo;
         const mouseDiff = { x: e.clientX - mouseStart.x, y: e.clientY - mouseStart.y }
 
-        if (action == 'move') {
+        if (action === 'move') {
             windowEl.style.left =  windowStart.x + mouseDiff.x;
             windowEl.style.top = windowStart.y + mouseDiff.y;
-        } else if (action == 'resizeL') {
+        } else if (action === 'resizeL') {
             windowEl.style.left = windowStart.x + mouseDiff.x;
             windowEl.style.width = windowStart.width - mouseDiff.x;
-        }  else if (action == 'resizeR') {
+        }  else if (action === 'resizeR') {
             windowEl.style.right = windowStart.x - mouseDiff.x;
             windowEl.style.width = windowStart.width + mouseDiff.x;
-        } else if (action == 'resizeT') {
+        } else if (action === 'resizeT') {
             windowEl.style.top = windowStart.y + mouseDiff.y;
             windowEl.style.height = windowStart.height - mouseDiff.y;
-        } else if (action == 'resizeB') {
+        } else if (action === 'resizeB') {
             windowEl.style.bottom = windowStart.y - mouseDiff.y;
             windowEl.style.height = windowStart.height + mouseDiff.y;
         } else {
@@ -170,11 +224,43 @@ class ss_window {
         
         containerEl.addEventListener('mousemove', this.handleMouseMove);
     };
+
+    handleWindowMinClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.windowState !== 'max') return;
+
+        this.windowState = 'default';
+        this.handleWindowExitClick(e);
+        this.initWindow();
+    };
+
+    handleWindowMaxClick = (e) => {
+        const { windowEl } = this;
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.windowState === 'max') return;
+
+        this.windowState = 'max';
+        windowEl.style.width = '100%';
+        windowEl.style.height = '100%';
+        windowEl.style.top = '0px';
+        windowEl.style.left = '0px';
+    };
+
+    handleWindowExitClick = (e) => {
+        const { windowEl, ss_desktopObj } = this;
+        e.preventDefault();
+        e.stopPropagation();
+        windowEl.remove();
+        ss_desktopObj.removeWindow(this);
+    };
 }
 
 class ss_desktop {
     constructor({ containerId, startMenuId, startMenuButtonId, appsClassName, menuItemsClassName }) {
         this.openWindows = [];
+        this.minimizedWindows = [];
         this.containerEl = document.getElementById(containerId);
         this.startMenuEl = document.getElementById(startMenuId);
         this.startMenuButtonEl = document.getElementById(startMenuButtonId);
@@ -224,6 +310,12 @@ class ss_desktop {
         this.openWindows.push(w);
     };
 
+    removeWindow = (window) => {
+        const { openWindows } = this;
+        const windowIndex = openWindows.indexOf(window);
+        openWindows.splice(windowIndex, 1);
+    };
+
     calcStartMenuHeight = () => {
         const { startMenuEl } = this;
         const startMenuItems = startMenuEl.children;
@@ -249,6 +341,7 @@ class ss_desktop {
     hideStartMenu = (e) => {
         const { startMenuEl } = this;
         startMenuEl.style.display = 'none';
+        document.body.removeEventListener('click', this.hideStartMenu);
     };
 }
 
