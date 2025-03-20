@@ -5,16 +5,34 @@ Our website domain index
 ## Table of Contents/Site Flow
 The structure of the site
 
-- Homepage
-- Team Page
-    - About Us
-    - Profile for Each Active CTF Member
-    - CTF History
-- Library
-    - Writeups
-    - Public Code & POCs
-- Team Blog
-- Joke Page/Deface
+Splash Page
+- Loading in the Sinister Script
+
+
+Recycle Bin
+- Adding a lil jokey joke
+
+
+My Computer
+- Duplicate of the main desktop screen
+
+
+The Script
+- Auto run on startup (?) 
+- Our main logo
+
+
+Documents
+- Our portfolio of projects and/or writeups
+
+
+Users
+- Each CTF member and their two niches 
+
+
+Etc
+- Open applications in taskbar
+- Drafting content
 
 ---
 ## Aesthetics
