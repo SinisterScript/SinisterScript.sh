@@ -331,6 +331,18 @@ class ss_desktop {
     addWindow = (e) => {
         const { containerEl } = this;
         const appEl = e.target;
+        
+        // Check if a window for this application is already open
+        const appHref = appEl.getAttribute('href');
+        const existingWindow = this.openWindows.find(window => window.href === appHref);
+        
+        if (existingWindow) {
+            // If window exists, bring it to front
+            this.raiseWindow(existingWindow);
+            return;
+        }
+        
+        // Create new window if none exists
         const w = new ss_window(containerEl, appEl, (this.openWindows.length + 1) * 1000, this);
         this.openWindows.push(w);
     };
