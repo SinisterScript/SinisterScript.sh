@@ -100,23 +100,49 @@ body {
 }
 
 #ss_system_tray {
+    height: 24px;
     position: absolute;
     right: 0px;
-    width: 150px;
-    height: 85%;
+    width: auto;
     margin-right: 7px;
-    border: 1px solid black;
+    border: inset;
     display: flex;
     flex-direction: row;
     gap: 5px;
-    align-items: center;
+    align-items: right;
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
     box-shadow: inset 0px 0px 5px 3px rgba(0, 0, 0, 0.226)
 }
 
+#ss_volumeIconContainer {
+  display: flex;
+
+}
+
+#ss_volumeIcon {
+  height: 20px;
+  width: auto;
+  margin-right: 4px;
+}
+
+#ss_clockContainer {
+  display: flex;
+  flex-direction: row;
+  margin-right: 4px;
+}
+
+#clockImg {
+  margin-right: 4px;
+  height: 18px;
+  margin-top: 2px;
+}
+
 #clockTime {
-    margin-top: 2px;
+    align-items: center;
+    font-size: 20;
+    font-family: "DM sans", sans serif;
+    margin-right: 4px;
 }
 
 /* start menu */
