@@ -224,9 +224,7 @@ async function typeText(screenText) {
                 screenText.scrollTop = screenText.scrollHeight;
                 await sleep(1);
 
-                if (m > bootString.length) {
-                        console.log('breaking'); break;
-                }
+                if (m > bootString.length) { break; }
         }
 }
 
