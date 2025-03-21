@@ -8,6 +8,13 @@
 
         <div id="ss_container">
             <div class="ss_application" href="pages/home.html" />
+            <div class="ss_menuItemText">meow item 1</div>
+        </div>
+        <div id="ss_startMenu">
+            <div class="ss_startMenuItem" href="pages/home.html">
+                <img class="ss_menuIconImage" src="images/computer_explorer.png" />
+                <div class="ss_menuItemText">menu item 1</div>
+            </div>
         </div>
         <div id="ss_taskbar"></div>
 */
@@ -26,14 +33,16 @@ class ss_window {
         this.imgSrc = appEl.querySelector('img').src;
         this.appText = appEl.querySelector('div').textContent;
         this.dragInfo = { mouseStart: {}, windowStart: {} };
-        this.windowState = 'default'; // default|min|max
+        this.restoreInfo = { loc: {}, dim: {} };
+        this.windowState = 'default'; // default|max
+        this.addWindowToTaskBar();
         this.initWindow();
         this.setZIndex(zIndex);
-
         /* // for visibility, here some other instance variables that get used
             this.windowEl;
             this.appEl = appEl;
             this.iframeBlockerEl;
+            this.taskbarButtonEl
             this.action;
         */
     }
@@ -71,6 +80,8 @@ class ss_window {
         this.windowEl.style.height = windowDefault.height;
 
         this.action = false;
+
+        this.taskbarButtonEl.removeEventListener('click', this.initWindow);
     };
 
     getInitLocation = () => {
@@ -210,6 +221,39 @@ class ss_window {
         this.windowEl.style.zIndex = `${zIndex}`;
     };
 
+    createTaskbarButton = () => {
+        const taskbarButtonEl = document.createElement('div');
+        this.taskbarButtonEl = taskbarButtonEl;
+        taskbarButtonEl.classList.add('ss_taskbar_button');
+
+        const taskbarButtonImgEl = document.createElement('img');
+        taskbarButtonImgEl.src = this.imgSrc;
+
+        const taskbarButtonTextEl = document.createElement('div');
+        taskbarButtonTextEl.textContent = this.appText;
+
+        taskbarButtonEl.append(taskbarButtonImgEl);
+        taskbarButtonEl.append(taskbarButtonTextEl);
+
+        taskbarButtonEl.addEventListener('click', () => {
+            const { windowEl } = this;
+            windowEl.style.display = 'block';
+        });
+
+        return taskbarButtonEl;
+    };
+
+    addWindowToTaskBar  = () => {
+        const taskbarEl = this.ss_desktopObj.taskbarEl;
+        const taskbarButtonEl = this.createTaskbarButton();
+        taskbarEl.append(taskbarButtonEl);
+    };
+
+    removeWindowFromTaskBar  = () => {
+        const { taskbarButtonEl } = this;
+        taskbarButtonEl.remove();
+    };
+
 
     handleMouseMove = (e) => {
         const { windowEl, action } = this;
@@ -253,40 +297,52 @@ class ss_window {
     handleWindowMinClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (this.windowState !== 'max') return;
-
-        this.windowState = 'default';
-        this.handleWindowExitClick(e);
-        this.initWindow();
+        const { windowEl } = this;
+        windowEl.style.display = 'none';
     };
 
     handleWindowMaxClick = (e) => {
         const { windowEl } = this;
         e.preventDefault();
         e.stopPropagation();
-        if (this.windowState === 'max') return;
-
-        this.windowState = 'max';
-        windowEl.style.width = '100%';
-        windowEl.style.height = '100%';
-        windowEl.style.top = '0px';
-        windowEl.style.left = '0px';
+        if (this.windowState === 'max') {
+            const { loc, dim } = this.restoreInfo;
+            this.windowState = 'default';
+            windowEl.style.width = dim.width;
+            windowEl.style.height = dim.height;
+            windowEl.style.top = loc.y;
+            windowEl.style.left = loc.x;
+        } else {
+            const windowRect = windowEl.getBoundingClientRect();
+            const { x, y, height, width } = windowRect;
+            this.restoreInfo = {
+                loc: { x, y },
+                dim: { width, height }
+            };
+            this.windowState = 'max';
+            windowEl.style.width = '100%';
+            windowEl.style.height = '100%';
+            windowEl.style.top = '0px';
+            windowEl.style.left = '0px';
+        }
     };
 
     handleWindowExitClick = (e) => {
         const { windowEl, ss_desktopObj } = this;
         e.preventDefault();
         e.stopPropagation();
+        this.removeWindowFromTaskBar();
         windowEl.remove();
         ss_desktopObj.removeWindow(this);
     };
 }
 
 class ss_desktop {
-    constructor({ containerId, startMenuId, startMenuButtonId, appsClassName, menuItemsClassName }) {
+    constructor({ containerId, taskbarId, startMenuId, startMenuButtonId, appsClassName, menuItemsClassName }) {
         this.openWindows = [];
         this.minimizedWindows = [];
         this.containerEl = document.getElementById(containerId);
+        this.taskbarEl = document.getElementById(taskbarId);
         this.startMenuEl = document.getElementById(startMenuId);
         this.startMenuButtonEl = document.getElementById(startMenuButtonId);
         this.appsClassName = appsClassName;
@@ -311,6 +367,7 @@ class ss_desktop {
         const ss_menuItems = document.getElementsByClassName(menuItemsClassName);
         for (const app of ss_menuItems) {
             app.addEventListener('click', this.addWindow);
+            app.addEventListener('click', this.hideStartMenu);
         }
     };
 
@@ -373,6 +430,7 @@ class ss_desktop {
 document.addEventListener('DOMContentLoaded', () => {
     new ss_desktop({
         containerId: 'ss_container',
+        taskbarId: 'ss_taskbar',
         startMenuId: 'ss_startMenu',
         startMenuButtonId: 'ss_start_button',
         appsClassName: 'ss_application',
