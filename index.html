@@ -1,87 +1,123 @@
 <html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <!-- FONTS -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap" rel="stylesheet">
 
         <!-- STYLES AND SCRIPTS -->
         <link rel="stylesheet" href="styles/ss_styles.css">
         <link rel="stylesheet" href="styles/boot.css">
+
         <script src="scripts/ss_os.js"></script>
         <script src="scripts/clock.js"></script>
         <script src="scripts/boot.js"></script>
+
+        <title>Sinister Script</title>
     </head>
+
     <body>
         <div id="ss_container">
             <!-- ss_container is the main container for ss_application's and tasbar -->
-            <div class="ss_application" href="pages/bruh.html">
-                <img class="iconImage"  src="images/recycle_bin.png" />
-                <div class="ss_menuItemText">Recycle Bin</div>
-            </div>
-            <div class="ss_application" href="index.html">
-                <img class="iconImage"  src="images/computer_explorer.png" />
-                <div class="ss_menuItemText">My Computer</div>
-            </div>
-            <div class="ss_application" href="pages/portfolio.html">
-                <img class="iconImage"  src="images/directory_open_file_mydocs.png" />
-                <div class="ss_menuItemText">My Folder</div>
-            </div>
-            <div class="ss_application" href="pages/thescript.html">
-                <img class="iconImage" src="images/console_prompt.png" />
-                <div class="ss_menuItemText">The Script</div>
-                <!--
+
+            <!--
                     an ss_application renders itself as a desktop icon with behaviors:
                         - can be double clicked to open an ss_window
                     an ss_window is rendered by js and have the following behaviors
                         - loads an iframe
                         - can be dragged & dropped to relocated or resize
                         - can be minimized or maximized
-                -->
-            </div>     
+            -->
+
+            <!-- Beginning of Desktop -->
+            <!-- Recycling Bin Icon: Lorem Ipsum Scroll -->
+            <div class="ss_application" href="pages/bruh.html">
+                <img class="iconImage"  src="images/recycle_bin.png" alt="Recycling Bin PNG" />
+                <div class="ss_menuItemText">Recycle Bin</div>
+            </div>
+
+            <!-- Computer Icon: Brainstorming... -->
+            <div class="ss_application" href="index.html">
+                <img class="iconImage"  src="images/computer_explorer.png" alt="Computer Explorer PNG"/>
+                <div class="ss_menuItemText">My Computer</div>
+            </div>
+
+            <!-- Folder Icon: Group Portfolio -->
+            <div class="ss_application" href="pages/portfolio.html">
+                <img class="iconImage"  src="images/directory_open_file_mydocs.png" alt="Directory Open File MyDocs PNG"/>
+                <div class="ss_menuItemText">My Folder</div>
+            </div>
+
+            <!-- CMD Prompt Icon: Sinister Script Landing Page -->
+            <div class="ss_application" href="pages/thescript.html">
+                <img class="iconImage" src="images/console_prompt.png" alt="Console Prompt PNG"/>
+                <div class="ss_menuItemText">The Script</div>
+            </div>
+
+            <!-- Users Icon: CTF Members & Speciality -->
             <div class="ss_application" href="pages/members.html">
-                <img class="iconImage"  src="images/users.png" />
+                <img class="iconImage"  src="images/users.png" alt="Userss PNG" />
                 <div class="ss_menuItemText">Users</div>
             </div>
+            <!-- End of Desktop -->
+
+            <!-- Beginning of Taskbar -->
             <div id="ss_taskbar">
+
+                <!-- Start Button -->
                 <div id="ss_start_button">      
-                    <img id="startImage" src="images/winLogoSm.png" />
+                    <img id="startImage" src="images/winLogoSm.png" alt="WinLogo PNG"/>
                     <p id="startText">Start</p>
                 </div>
 
+                <!-- Beginning of Start Menu-->
                 <div id="ss_startMenu">
                     <!--
                         start menu items are defined the same way ss_applications are
                             - a div with className ss_startMenuItem
                             - div must contain href attribute
                     -->
+
+                    <!-- Computer Icon -->
                     <div class="ss_startMenuItem" href="index.html">
-                        <img class="ss_menuIconImage" src="images/computer_explorer.png" />
+                        <img class="ss_menuIconImage" src="images/computer_explorer.png" alt="Computer Explorer PNG"/>
                         <div class="ss_menuItemText">My Computer</div>
                     </div>
+
+                    <!-- Folder Icon -->
                     <div class="ss_startMenuItem" href="pages/portfolio.html">
-                        <img class="ss_menuIconImage"  src="images/directory_open_file_mydocs.png" />
+                        <img class="ss_menuIconImage"  src="images/directory_open_file_mydocs.png" alt="Directory Open File MyDocs PNG"/>
                         <div class="ss_menuItemText">My Folder</div>
                     </div>
+
+                    <!-- CMD Prompt Icon-->
                     <div class="ss_startMenuItem" href="pages/thescript.html">
-                        <img class="ss_menuIconImage"  src="images/console_prompt.png" />
+                        <img class="ss_menuIconImage"  src="images/console_prompt.png" alt="Console Prompt PNG"/>
                         <div class="ss_menuItemText">The Script</div>
                     </div>
+
+                    <!-- Users Icon -->
                     <div class="ss_startMenuItem" href="pages/members.html">
-                        <img class="ss_menuIconImage"  src="images/users.png" />
+                        <img class="ss_menuIconImage"  src="images/users.png" alt="Users PNG" />
                         <div class="ss_menuItemText">Users</div>
                     </div>
                 </div>
+                <!-- End of Start Menu -->
                 
+                <!-- System Tray w/ Clock -->
                 <div id="ss_system_tray">
                   <div id="ss_volumeIconContainer">
                     <img id="ss_volumeIcon" src="images/volumeIcon32x32.png" />
                   <div id="ss_clockContainer">
-                    <img id="clockImg" src="images/clock.png" />
+                    <img id="clockImg" src="images/clock.png" alt="Clock PNG"/>
                     <div id="clockTime"></div>
                   <div>
                 </div>
             </div>
+            <!-- End of Taskbar -->
         </div>
     </body>
 </html>
