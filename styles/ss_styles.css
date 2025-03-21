@@ -1,3 +1,15 @@
+
+/* variables to store colors */
+:root {
+    --ColWinBG: #c6c6c6;
+    --ColWinTrim: #dadada;
+}
+
+* {
+  /* Image rendering to sharpen all images/textures added  */
+    image-rendering: pixelated;
+   }
+
 body {
     margin: 0px;
     padding: 0px;
@@ -32,20 +44,22 @@ body {
     left: 0px;
     height: 35px;
     width: 100%;
-    background-color: rgb(161, 161, 161);
+    background-color: var(--ColWinBG);
+    border-top-style: outset; 
+    border-top-color: var(--ColWinTrim);
     z-index: 10000;
 }
 
 .ss_taskbar_button {
     border: 1px solid black;
-    height: 100%;
+    height: 20px;
     width: 200px;
     padding: 3px;
     cursor: default;
     display: flex;
     flex-direction: row;
     gap: 5px;
-    box-sizing: border-box;
+    border: inset;
 }
 
 .ss_taskbar_button div {
@@ -59,10 +73,14 @@ body {
 }
 
 #ss_start_button {
-    height: 100%;
+    height: 20px;
     width: auto;
-    background-color: rgb(161, 161, 161);
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+    background-color: var(--ColWinBG);
+    border: outset;
+    border-top-color: var(--ColWinTrim);
+    border-left-color: var(--ColWinTrim);
+    padding: 3px 4px;
+    /*box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,8 +89,13 @@ body {
     background-color: rgb(207, 207, 207);
 }
 
+#startText {
+  font-family: "DM Sans", sans-serif;
+  font-size: 20px;
+}
+
 #startImage {
-    height: 30px;
+    height: 20px;
     width: auto;
 }
 
@@ -157,14 +180,19 @@ body {
     width: 800px;
     min-width: 100px;
     min-height: 100px;
-    background-color: white;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+    background-color: #dadada;
+    border-style: outset;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.0);
 }
 .ss_window_titleBar {
     position: relative;
     height: 30px;
     width: 100%;
-    border: 1px solid black;
+    color: white;
+    background-image: linear-gradient(to right, #000c87, #2fb0fe);
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dadada;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -192,7 +220,9 @@ body {
 .titleMinButton, .titleMaxButton, .titleExitButton {
     height: 20px;
     width: 20px;
-    border: 1px solid rgb(173, 173, 173);
+    border-style: outset;
+    border-width: 2px;
+    background-color: #dadada;
     display: flex;
     align-items: center;
     justify-content: center;
