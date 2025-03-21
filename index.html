@@ -1,5 +1,11 @@
 <html lang="en">
     <head>
+        <!-- FONTS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+        <!-- STYLES AND SCRIPTS -->
         <link rel="stylesheet" href="styles/ss_styles.css">
         <link rel="stylesheet" href="styles/boot.css">
         <script src="scripts/ss_os.js"></script>
@@ -11,11 +17,15 @@
             <!-- ss_container is the main container for ss_application's and tasbar -->
             <div class="ss_application" href="pages/secret.html">
                 <img class="iconImage"  src="images/recycle_bin.png" />
-                <div class="ss_menuItemText">meow item 1</div>
+                <div class="ss_menuItemText">Recycle Bin</div>
+            </div>
+            <div class="ss_application" href="index.html">
+                <img class="iconImage"  src="images/computer_explorer.png" />
+                <div class="ss_menuItemText">My Computer</div>
             </div>
             <div class="ss_application" href="pages/thescript.html">
                 <img class="iconImage" src="images/console_prompt.png" />
-                <div class="ss_menuItemText">meow item 2</div>
+                <div class="ss_menuItemText">The Script</div>
                 <!--
                     an ss_application renders itself as a desktop icon with behaviors:
                         - can be double clicked to open an ss_window
@@ -24,18 +34,19 @@
                         - can be dragged & dropped to relocated or resize
                         - can be minimized or maximized
                 -->
-            </div>
+            </div>     
             <div class="ss_application" href="pages/portfolio.html">
                 <img class="iconImage"  src="images/directory_open_file_mydocs.png" />
-                <div class="ss_menuItemText">meow item 3</div>
+                <div class="ss_menuItemText">Documents</div>
             </div>
             <div class="ss_application" href="pages/members.html">
                 <img class="iconImage"  src="images/users.png" />
-                <div class="ss_menuItemText">meow item 4</div>
+                <div class="ss_menuItemText">Users</div>
             </div>
             <div id="ss_taskbar">
-                <div id="ss_start_button">
+                <div id="ss_start_button">      
                     <img id="startImage" src="images/winLogoSm.png" />
+                    <p id="startText">Start</p>
                 </div>
 
                 <div id="ss_startMenu">
@@ -44,17 +55,21 @@
                             - a div with className ss_startMenuItem
                             - div must contain href attribute
                     -->
-                    <div class="ss_startMenuItem" href="pages/home.html">
+                    <div class="ss_startMenuItem" href="index.html">
                         <img class="ss_menuIconImage" src="images/computer_explorer.png" />
-                        <div class="ss_menuItemText">menu item 1</div>
+                        <div class="ss_menuItemText">My Computer</div>
                     </div>
-                    <div class="ss_startMenuItem" href="#">
+                    <div class="ss_startMenuItem" href="pages/thescript.html">
+                        <img class="ss_menuIconImage"  src="images/console_prompt.png" />
+                        <div class="ss_menuItemText">The Script</div>
+                    </div>
+                    <div class="ss_startMenuItem" href="pages/portfolio.html">
                         <img class="ss_menuIconImage"  src="images/directory_open_file_mydocs.png" />
-                        <div class="ss_menuItemText">meow item 2</div>
+                        <div class="ss_menuItemText">Documents</div>
                     </div>
-                    <div class="ss_startMenuItem" href="#">
-                        <img class="ss_menuIconImage"  src="images/recycle_bin.png" />
-                        <div class="ss_menuItemText">meow item 3</div>
+                    <div class="ss_startMenuItem" href="pages/members.html">
+                        <img class="ss_menuIconImage"  src="images/users.png" />
+                        <div class="ss_menuItemText">Users</div>
                     </div>
                 </div>
                 
