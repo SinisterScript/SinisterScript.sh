@@ -191,6 +191,12 @@ body {
     flex-direction: column;
     gap: 3px;
 }
+
+.ss_application.selected {
+    background-color: rgba(173, 216, 230, 0.5);
+    border: 1px dotted #000;
+}
+
 .iconImage {
     height: 70px;
     width: auto;
