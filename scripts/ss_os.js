@@ -347,6 +347,7 @@ class ss_desktop {
         this.startMenuButtonEl = document.getElementById(startMenuButtonId);
         this.appsClassName = appsClassName;
         this.menuItemsClassName = menuItemsClassName;
+        this.selectedIcon = null;
         this.bindHandlersToApps();
         this.bindHandlersToStartMenu();
     }
@@ -354,8 +355,49 @@ class ss_desktop {
     bindHandlersToApps = () => {
         const { appsClassName } = this;
         const ss_applications = document.getElementsByClassName(appsClassName);
+        this.containerEl.removeEventListener('click', this.clearSelectionIfNotIcon);
+        this.containerEl.addEventListener('click', this.clearSelectionIfNotIcon);
+
         for (const app of ss_applications) {
-            app.addEventListener('click', this.addWindow);
+            // First remove any existing listeners to avoid duplications
+            app.removeEventListener('click', this.selectApp);
+            app.removeEventListener('dblclick', this.addWindow);
+
+            // Then add fresh listeners
+            app.addEventListener('click', this.selectApp);
+            app.addEventListener('dblclick', this.addWindow);
+        }
+    };
+
+    selectApp = (e) => {
+        e.stopPropagation();
+        let appEl = e.target;
+        if (!appEl.classList.contains('ss_application')) {
+            appEl = appEl.closest('.ss_application');
+        }
+
+        if (!appEl || !appEl.classList.contains('ss_application')) {
+            return;
+        }
+
+        if (this.selectedIcon && this.selectedIcon !== appEl) {
+            this.selectedIcon.classList.remove('selected');
+        }
+
+        appEl.classList.add('selected');
+        this.selectedIcon = appEl;
+    };
+
+    clearSelectionIfNotIcon = (e) => {
+        if (e.target === this.containerEl) {
+            this.clearSelection();
+        }
+    };
+
+    clearSelection = () => {
+        if (this.selectedIcon) {
+            this.selectedIcon.classList.remove('selected');
+            this.selectedIcon = null;
         }
     };
 
@@ -365,9 +407,16 @@ class ss_desktop {
         startMenuButtonEl.addEventListener('click', this.showStartMenu);
         // click handlers for all menu items
         const ss_menuItems = document.getElementsByClassName(menuItemsClassName);
-        for (const app of ss_menuItems) {
-            app.addEventListener('click', this.addWindow);
-            app.addEventListener('click', this.hideStartMenu);
+        for (const menuItem of ss_menuItems) {
+            menuItem.removeEventListener('click', this.addWindow);
+            menuItem.removeEventListener('click', this.hideStartMenu);
+
+            const handleMenuItemClick = (e) => {
+                this.addWindow(e);
+                this.hideStartMenu(e);
+            };
+
+            menuItem.addEventListener('click', handleMenuItemClick);
         }
     };
 
@@ -386,11 +435,23 @@ class ss_desktop {
     };
 
     addWindow = (e) => {
+        e.stopPropagation();
         const { containerEl } = this;
-        const appEl = e.target;
+        let appEl = e.target;
+        if (!appEl.classList.contains('ss_application')) {
+            appEl = appEl.closest('.ss_application');
+        }
+
+        // If no valid app element found, return
+        if (!appEl || !appEl.classList.contains('ss_application')) {
+            return;
+        }
         
-        // Check if a window for this application is already open
         const appHref = appEl.getAttribute('href');
+        if (!appHref) {
+            return;
+        }
+
         const existingWindow = this.openWindows.find(window => window.href === appHref);
         
         if (existingWindow) {
@@ -402,6 +463,7 @@ class ss_desktop {
         // Create new window if none exists
         const w = new ss_window(containerEl, appEl, (this.openWindows.length + 1) * 1000, this);
         this.openWindows.push(w);
+        this.clearSelection();
     };
 
     removeWindow = (window) => {
@@ -440,12 +502,15 @@ class ss_desktop {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new ss_desktop({
-        containerId: 'ss_container',
-        taskbarId: 'ss_taskbar',
-        startMenuId: 'ss_startMenu',
-        startMenuButtonId: 'ss_start_button',
-        appsClassName: 'ss_application',
-        menuItemsClassName: 'ss_startMenuItem'
-    });
+    // Add a small delay to ensure DOM is fully rendered
+    setTimeout(() => {
+        new ss_desktop({
+            containerId: 'ss_container',
+            taskbarId: 'ss_taskbar',
+            startMenuId: 'ss_startMenu',
+            startMenuButtonId: 'ss_start_button',
+            appsClassName: 'ss_application',
+            menuItemsClassName: 'ss_startMenuItem'
+        });
+    }, 50);
 });
