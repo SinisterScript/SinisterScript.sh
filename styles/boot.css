@@ -1,0 +1,18 @@
+#bootScreen {
+    position: fixed;
+    z-index: 20000;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    transition: opacity 2s ease-out;
+}
+
+#bootScreenText {
+    height: 100%;
+    width: 100%;
+    resize: none;
+    background-color: black;
+    color: white;
+    white-space: pre;
+    overflow: hidden;
+}

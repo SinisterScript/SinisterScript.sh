@@ -1,0 +1,341 @@
+
+/* variables to store colors */
+:root {
+    --ColWinBG: #c6c6c6;
+    --ColWinTrim: #dadada;
+}
+
+* {
+  /* Image rendering to sharpen all images/textures added  */
+    image-rendering: pixelated;
+   }
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#ss_container {
+    position: fixed;
+    height: calc(100% - 35px);
+    width: 100%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    background-color: rgb(0, 148, 148);
+    box-sizing: border-box;
+}
+
+/* taskbar */
+#ss_taskbar {
+    position: fixed;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 2px;
+    flex-direction: row;
+    bottom: 0px;
+    left: 0px;
+    height: 35px;
+    width: 100%;
+    background-color: var(--ColWinBG);
+    border-top-style: outset; 
+    border-top-color: var(--ColWinTrim);
+    z-index: 10000;
+}
+
+.ss_taskbar_button {
+    border: 1px solid black;
+    height: 20px;
+    width: 200px;
+    padding: 3px;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    border: inset;
+}
+
+.ss_taskbar_button div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    overflow:hidden;
+}
+
+#ss_start_button {
+    height: 20px;
+    width: auto;
+    background-color: var(--ColWinBG);
+    border: outset;
+    border-top-color: var(--ColWinTrim);
+    border-left-color: var(--ColWinTrim);
+    padding: 3px 4px;
+    /*box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#ss_start_button:hover {
+    background-color: rgb(207, 207, 207);
+}
+
+#startText {
+  font-family: "DM Sans", sans-serif;
+  font-size: 20px;
+}
+
+#startImage {
+    height: 20px;
+    width: auto;
+}
+
+#ss_system_tray {
+    height: 24px;
+    position: absolute;
+    right: 0px;
+    width: auto;
+    margin-right: 7px;
+    border: inset;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: right;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: inset 0px 0px 5px 3px rgba(0, 0, 0, 0.226)
+}
+
+#ss_volumeIconContainer {
+  display: flex;
+
+}
+
+#ss_volumeIcon {
+  height: 20px;
+  width: auto;
+  margin-right: 4px;
+}
+
+#ss_clockContainer {
+  display: flex;
+  flex-direction: row;
+  margin-right: 4px;
+}
+
+#clockImg {
+  margin-right: 4px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+#clockTime {
+    align-items: center;
+    font-size: 20;
+    font-family: "DM sans", sans serif;
+    margin-right: 4px;
+}
+
+/* start menu */
+#ss_startMenu {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 200px;
+    background-color: rgb(161, 161, 161);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.ss_startMenuItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+}
+
+.ss_startMenuItem:hover {
+    background-color: rgb(179, 179, 179);
+}
+
+.ss_menuItemText {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    pointer-events: none;
+}
+
+.ss_menuIconImage {
+    pointer-events: none;
+}
+
+
+/* icons */
+.ss_application {
+    height: 120px;
+    width: 120px;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ss_application.selected {
+    background-color: rgba(173, 216, 230, 0.5);
+    border: 1px dotted #000;
+}
+
+.iconImage {
+    height: 70px;
+    width: auto;
+    pointer-events: none;
+}
+
+/* windows */
+.ss_window {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 500px;
+    width: 800px;
+    min-width: 100px;
+    min-height: 100px;
+    background-color: #dadada;
+    border-style: outset;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.0);
+}
+.ss_window_titleBar {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(to right, #000c87, #2fb0fe);
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dadada;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+    gap: 5px;
+}
+
+.titleText {
+    padding-top: 2px;
+    cursor: default;
+}
+
+.titleButtons {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    margin-right: 2px;
+}
+
+.titleMinButton, .titleMaxButton, .titleExitButton {
+    height: 20px;
+    width: 20px;
+    border-style: outset;
+    border-width: 2px;
+    background-color: #dadada;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.titleMinButton:hover, .titleMaxButton:hover, .titleExitButton:hover {
+    background-color: rgb(211, 211, 211);
+}
+
+.titleInnerMinButton {
+    height: 10px;
+    width: 10px;
+    border-bottom: 1px solid black;
+}
+
+.titleInnerMaxButton {
+    height: 10px;
+    width: 10px;
+    border: 1px solid black;
+}
+
+.titleExitButton {
+    font-size: 14px;
+    cursor: default;
+}
+
+.ss_window_horiz_resize_l {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 0px;
+    cursor: ew-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_horiz_resize_r {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 0px;
+    cursor: ew-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_vert_resize_t {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 0px;
+    width: 100%;
+    cursor: ns-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+.ss_window_vert_resize_b {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 0px;
+    width: 100%;
+    cursor: ns-resize;
+    border: 5px solid transparent;
+    box-sizing: border-box;
+}
+
+iframe {
+    position: relative;
+    height: calc(100% - 30px);
+    width: 100%;
+    border: none;
+}
+
+.ss_window_iframeBlocker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: none;
+    display: none;
+}
